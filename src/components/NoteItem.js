@@ -4,8 +4,8 @@ import ArchiveButton from "./ArchiveButton";
 import DeleteButton from "./DeleteButton";
 import { showFormattedDate } from "../utils";
 
-function NoteItem({ id, title, body, archived, createdAt, onArchive, onDelete }) {
-  return (
+const NoteItem = ({ id, title, body, archived, createdAt, onArchive, onDelete }) =>
+  (
     <div className="note-item flex flex-col mt-4 bg-indigo-100 rounded-lg drop-shadow-sm">
       <div className="note-item_content container py-5 grow">
         <h4 className="note-item__title mb-2 text-2xl font-bold text-indigo-900">{title}</h4>
@@ -20,6 +20,5 @@ function NoteItem({ id, title, body, archived, createdAt, onArchive, onDelete })
       </div>
     </div>
   );
-}
 
 export default NoteItem;

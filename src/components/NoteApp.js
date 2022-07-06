@@ -17,7 +17,7 @@ class NoteApp extends React.Component {
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
   }
   
-  onArchiveHandler(id) {
+  onArchiveHandler = id => {
     const notes = this.state.notes;
     const noteIdx = notes.findIndex(note => note.id === id);
     if (notes[noteIdx].archived) {
@@ -28,13 +28,13 @@ class NoteApp extends React.Component {
     this.setState({ notes, keyword: this.state.keyword });
   }
 
-  onDeleteHandler(id) {
+  onDeleteHandler = id => {
     const notes = this.state.notes.filter(note => note.id !== id);
     this.setState({ notes, keyword: this.state.keyword });
   }
 
-  onAddNoteHandler({ title, body }) {
-    this.setState((prevState) => ({
+  onAddNoteHandler = ({ title, body }) => {
+    this.setState(prevState => ({
       ...prevState,
       notes: [
         ...prevState.notes,
@@ -49,8 +49,8 @@ class NoteApp extends React.Component {
     }));
   }
 
-  onKeywordChangeEventHandler(event) {
-    this.setState((prevState) => ({
+  onKeywordChangeEventHandler = event => {
+    this.setState(prevState => ({
       ...prevState,
       keyword: event.target.value,
     }));

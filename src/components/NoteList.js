@@ -1,7 +1,7 @@
 import React from "react";
 import NoteItem from "./NoteItem";
 
-function NoteList({ notes, onArchive, onDelete, query }) {
+const NoteList = ({ notes, onArchive, onDelete, query }) => {
   const filtered = notes.filter((note) => note.title.toLowerCase().includes(query.toLowerCase()));
   if (filtered.length > 0) {
     return (

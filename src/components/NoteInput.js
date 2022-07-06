@@ -15,9 +15,9 @@ class NoteInput extends React.Component {
     this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
   }
  
-  onTitleChangeEventHandler(event) {
+  onTitleChangeEventHandler = event => {
     if (event.target.value.length <= 50) {
-      this.setState((prevState) => ({
+      this.setState(prevState => ({
         ...prevState,
         title: event.target.value,
         chars: 50 - event.target.value.length,
@@ -27,20 +27,20 @@ class NoteInput extends React.Component {
     }
   }
   
-  onBodyChangeEventHandler(event) {
-    this.setState((prevState) => ({
+  onBodyChangeEventHandler = event => {
+    this.setState(prevState => ({
       ...prevState,
       body: event.target.value,
     }));
   }
   
-  onSubmitEventHandler(event) {
+  onSubmitEventHandler = event => {
     event.preventDefault();
     this.props.addNote(this.state);
   }
 
-  render() {
-    return (
+  render = () =>
+    (
       <form className='note-input flex flex-col' onSubmit={this.onSubmitEventHandler} >
         <span className="text-sm self-end py-2" id="note-title-chars">Remaining chars: {this.state.chars}</span>
         <input className="mb-2 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm" type="text" placeholder="Note Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
@@ -48,7 +48,6 @@ class NoteInput extends React.Component {
         <button className="mb-2 px-3 py-2 rounded-lg drop-shadow-sm bg-indigo-700 text-indigo-100" type="submit">Create</button>
       </form>
     )
-  }
 }
  
 export default NoteInput;
