@@ -5,14 +5,14 @@ import {
 } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { RiArchiveFill } from 'react-icons/ri';
-import { getAllNotes, searchNotes } from '../utils/local-data';
-import HomePage from '../pages/HomePage';
-import DetailPage from '../pages/DetailPage';
-import SearchBar from './SearchBar';
-import AddPage from '../pages/AddPage';
-import ArchivePage from '../pages/ArchivePage';
-import NotFoundPage from '../pages/NotFoundPage';
-import Footer from './Footer';
+import { getAllNotes, searchNotes } from './utils/local-data';
+import HomePage from './pages/HomePage';
+import DetailPage from './pages/DetailPage';
+import SearchBar from './components/SearchBar';
+import AddPage from './pages/AddPage';
+import ArchivePage from './pages/ArchivePage';
+import NotFoundPage from './pages/NotFoundPage';
+import Footer from './components/Footer';
 
 function NoteAppWrapper() {
   const [searchParams, setSearchParams] = useSearchParams();
