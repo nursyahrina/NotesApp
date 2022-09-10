@@ -4,8 +4,8 @@ import { RiDeleteBin5Fill } from 'react-icons/ri';
 
 function DeleteButton({ id, onDelete }) {
   return (
-    <button type="button" className="note-item__delete rounded-br-lg bg-rose-700 py-3 border border-white" onClick={() => onDelete(id)}>
-      <RiDeleteBin5Fill />
+    <button type="button" className="button-action bg-danger-hover animate-scale" onClick={() => onDelete(id)}>
+      <RiDeleteBin5Fill size={40} className="p-1 text-white drop-shadow-lg" />
     </button>
   );
 }

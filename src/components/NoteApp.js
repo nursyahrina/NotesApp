@@ -1,109 +1,129 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable react/jsx-no-bind */
 import React from 'react';
-import { getNotes } from '../utils/data';
-import NoteInput from './NoteInput';
-import NoteList from './NoteList';
+import {
+  Routes, Route, useLocation, useSearchParams, Link,
+} from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { RiArchiveFill } from 'react-icons/ri';
+import { getAllNotes, searchNotes } from '../utils/local-data';
+import HomePage from '../pages/HomePage';
+import DetailPage from '../pages/DetailPage';
+import SearchBar from './SearchBar';
+import AddPage from '../pages/AddPage';
+import ArchivePage from '../pages/ArchivePage';
+import NotFoundPage from '../pages/NotFoundPage';
+import Footer from './Footer';
+
+function NoteAppWrapper() {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const keyword = searchParams.get('keyword');
+  const location = useLocation();
+
+  function changeSearchParams(newKeyword) {
+    setSearchParams({ keyword: newKeyword });
+  }
+
+  return (
+    <NoteApp
+      activeKeyword={keyword}
+      path={location.pathname}
+      onSearch={changeSearchParams}
+    />
+  );
+}
 
 class NoteApp extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      notes: getNotes(),
-      keyword: '',
+      notes: props.activeKeyword ? searchNotes(props.activeKeyword) : getAllNotes(),
+      keyword: props.activeKeyword || '',
     };
 
-    this.onArchiveHandler = this.onArchiveHandler.bind(this);
-    this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
+    this.onSearchHandler = this.onSearchHandler.bind(this);
+    this.onUpdateHandler = this.onUpdateHandler.bind(this);
   }
 
-  onArchiveHandler = (id) => {
-    const { notes } = this.state;
-    const noteIdx = notes.findIndex((note) => note.id === id);
-    if (notes[noteIdx].archived) {
-      notes[noteIdx].archived = false;
-    } else {
-      notes[noteIdx].archived = true;
-    }
-    this.setState({ notes, keyword: this.state.keyword });
-  };
-
-  onDeleteHandler = (id) => {
-    const notes = this.state.notes.filter((note) => note.id !== id);
-    this.setState({ notes, keyword: this.state.keyword });
-  };
-
-  onAddNoteHandler = ({ title, body }) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      notes: [
-        ...prevState.notes,
-        {
-          id: +new Date(),
-          title,
-          body,
-          archived: false,
-          createdAt: Date(),
-        },
-      ],
+  onSearchHandler(keyword) {
+    const { onSearch } = this.props;
+    this.setState(() => ({
+      notes: searchNotes(keyword),
+      keyword,
     }));
-  };
 
-  onKeywordChangeEventHandler = (event) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      keyword: event.target.value,
+    onSearch(keyword);
+  }
+
+  onUpdateHandler() {
+    this.setState(() => ({
+      notes: getAllNotes(),
     }));
-  };
+  }
 
   render() {
+    const { notes, keyword } = this.state;
+    const { path } = this.props;
+
     return (
-      <div className="contact-app bg-slate-50">
-        <div className="contact-app__header sticky top-0 z-10 flex flex-wrap gap-4 justify-between px-5 py-5 bg-indigo-700 drop-shadow-xl">
-          <div className="flex justify-start">
-            <img className="flex-none w-12 h-12 rounded-lg" src="/images/logo.png" alt="NoteApp Logo" />
-            <h1 className="flex-initial px-3 text-4xl text text-sky-100">Rubie`&apos;`s NotesApp</h1>
+      <div className="note-app">
+        <header className="flex flex-wrap gap-4 justify-between px-5 py-5">
+          <Link to="/" className="flex justify-start">
+            <img className="flex-none w-12 h-12 rounded-lg animate-scale" src="/images/logo.png" alt="NoteApp Logo" />
+            <h1 className="hidden md:block flex-initial px-3 text-4xl text text-sky-100 hover:drop-shadow-2xl">
+              Rubie&apos;s NotesApp
+            </h1>
+          </Link>
+          <div className="flex justify-between content-center items-center">
+            <Link to="/archives" className="mr-4 pb-2 animate-scale drop-shadow-sm"><RiArchiveFill size={36} className="text-white hover:text-slate-200" /></Link>
+            { (path === '/'
+              || path === '/archives'
+              || path.substr(0, 10) === '/?keyword='
+              || path.substr(9, 10) === '/?keyword=')
+              && (<SearchBar keyword={keyword} keywordChange={this.onSearchHandler} />)}
           </div>
-          <input className="mb-2 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm" type="text" placeholder="Search Note Here..." value={this.state.keyword} onChange={this.onKeywordChangeEventHandler.bind(this)} />
-        </div>
-        <div className="contact-app__container">
-          <div className="contact-app__form container max-w-2xl my-6 py-8">
-            <h2 className="text-3xl font-bold ml-6 mb-4">Create New Note</h2>
-            <NoteInput addNote={this.onAddNoteHandler} />
-          </div>
-          <div className="contact-app__active-notes container max-w-6xl mb-8 py-8 border-t-2 border-indigo-700">
-            <h2 className="text-3xl font-bold ml-6 mb-4">Active Notes</h2>
-            <NoteList
-              notes={this.state.notes.filter((note) => !note.archived)}
-              onArchive={this.onArchiveHandler}
-              onDelete={this.onDeleteHandler}
-              query={this.state.keyword}
+        </header>
+
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={(
+                <HomePage
+                  keyword={keyword}
+                  notes={notes.filter((note) => !note.archived)}
+                />
+              )}
             />
-          </div>
-          <div className="contact-app__archived-notes container max-w-6xl mb-8 py-8 border-y-2 border-indigo-700">
-            <h2 className="text-3xl font-bold ml-6 mb-4">Archived Notes</h2>
-            <NoteList
-              notes={this.state.notes.filter((note) => note.archived)}
-              onArchive={this.onArchiveHandler}
-              onDelete={this.onDeleteHandler}
-              query={this.state.keyword}
+            <Route
+              path="/archives"
+              element={(
+                <ArchivePage
+                  keyword={keyword}
+                  notes={notes.filter((note) => note.archived)}
+                />
+              )}
             />
-          </div>
-        </div>
-        <div className="contact-app__footer px-5 py-5 bg-slate-900 text-indigo-200 drop-shadow-xl text-center">
-          <p className="text-lg">
-            &copy; 2022
-            {' '}
-            <strong>Rubie`&apos;`s Studio</strong>
-            {' '}
-            by Nursyahrina &hearts;
-          </p>
-        </div>
+            <Route path="/notes/new" element={<AddPage onUpdate={this.onUpdateHandler} />} />
+            <Route path="/notes/:id" element={<DetailPage onUpdate={this.onUpdateHandler} />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
       </div>
     );
   }
 }
 
-export default NoteApp;
+NoteApp.propTypes = {
+  activeKeyword: PropTypes.string,
+  onSearch: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+};
+
+NoteApp.defaultProps = {
+  activeKeyword: '',
+};
+
+export default NoteAppWrapper;

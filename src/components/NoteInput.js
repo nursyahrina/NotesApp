@@ -14,14 +14,13 @@ class NoteInput extends React.Component {
     };
 
     this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
-    this.onBodyChangeEventHandler = this.onBodyChangeEventHandler.bind(this);
+    this.onInputHandler = this.onInputHandler.bind(this);
     this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
   }
 
   onTitleChangeEventHandler = (event) => {
     if (event.target.value.length <= 50) {
-      this.setState((prevState) => ({
-        ...prevState,
+      this.setState(() => ({
         title: event.target.value,
         chars: 50 - event.target.value.length,
       }));
@@ -30,10 +29,9 @@ class NoteInput extends React.Component {
     }
   };
 
-  onBodyChangeEventHandler = (event) => {
-    this.setState((prevState) => ({
-      ...prevState,
-      body: event.target.value,
+  onInputHandler = (event) => {
+    this.setState(() => ({
+      body: event.target.innerHTML,
     }));
   };
 
@@ -44,15 +42,21 @@ class NoteInput extends React.Component {
 
   render() {
     return (
-      <form className="note-input flex flex-col" onSubmit={this.onSubmitEventHandler}>
-        <span className="text-sm self-end py-2" id="note-title-chars">
+      <form className="section-container pt-0 flex flex-col" onSubmit={this.onSubmitEventHandler}>
+        <span className="self-end py-2 text-slate-50" id="note-title-chars">
           Remaining chars:
           {' '}
           {this.state.chars}
         </span>
         <input className="mb-2 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm" type="text" placeholder="Note Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
-        <textarea className="mb-3 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm" placeholder="Type your note here..." rows="4" value={this.state.body} onChange={this.onBodyChangeEventHandler} />
-        <button className="mb-2 px-3 py-2 rounded-lg drop-shadow-sm bg-indigo-700 text-indigo-100" type="submit">Create</button>
+        {(this.state.title).length === 50 && (<span className="self-end mb-4 font-bold text-amber-300">The max length of title has been met, can&apos;t exceed this limit!</span>)}
+        <div
+          className="mb-3 py-2 px-6 min-h-[100px] bg-white border border-indigo-800 rounded-lg drop-shadow-sm"
+          data-placeholder="Sebenarnya saya adalah ...."
+          contentEditable
+          onInput={this.onInputHandler}
+        />
+        <button className="mb-2 px-3 py-2 rounded-lg drop-shadow-sm bg-accent-hover font-bold text-slate-900" type="submit">Create</button>
       </form>
     );
   }

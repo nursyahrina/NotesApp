@@ -4,8 +4,8 @@ import { RiInboxArchiveFill } from 'react-icons/ri';
 
 function ArchiveButton({ id, onArchive }) {
   return (
-    <button type="button" className="note-item__archive rounded-bl-lg bg-slate-500 py-3 border border-white" onClick={() => onArchive(id)}>
-      <RiInboxArchiveFill />
+    <button type="button" className="button-action bg-secondary-hover animate-scale" onClick={() => onArchive(id)}>
+      <RiInboxArchiveFill size={40} className="p-1 text-white drop-shadow-lg" />
     </button>
   );
 }
