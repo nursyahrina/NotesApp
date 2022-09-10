@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .bg-primary {
+    @apply bg-gradient-to-br from-indigo-500 to-indigo-700;
+  }
+  .section-container {
+    @apply container max-w-6xl mb-8 py-8;
+  }
+  .section-title {
+    @apply w-fit text-3xl font-bold ml-6 mb-4 px-2 pb-2 border-b-8 rounded-lg text-white border-indigo-900 drop-shadow-xl;
+  }
+  .button-action {
+    @apply z-30 rounded-full p-3 drop-shadow-xl;
+  }
+  .bg-container {
+    @apply bg-gradient-to-br from-indigo-50 to-indigo-300 shadow-lg shadow-indigo-400;
+  }
+  .bg-accent-hover {
+    @apply bg-gradient-to-br from-amber-300 to-amber-500 hover:from-amber-500 hover:to-amber-300;
+  }
+  .bg-danger-hover {
+    @apply bg-gradient-to-br from-rose-500 to-rose-800 hover:from-rose-800 hover:to-rose-500;
+  }
+  .bg-secondary-hover {
+    @apply bg-gradient-to-br from-slate-500 to-slate-800 hover:from-slate-800 hover:to-slate-500;
+  }
+  .animate-scale {
+    @apply transition ease-in-out delay-100 hover:scale-110;
+  }
+  .animate-skew {
+    @apply skew-x-6 rotate-6 z-0 transition ease-in-out delay-75 hover:skew-x-0 hover:rotate-0 hover:scale-110 hover:z-10 hover:shadow-2xl;
+  }
+}
