@@ -3,16 +3,12 @@ import { PropTypes } from 'prop-types';
 import NoteItem from './NoteItem';
 
 function NoteList({
-  notes, query,
+  notes,
 }) {
-  let filtered = notes;
-  if (query === '') {
-    filtered = notes.filter((note) => note.title.toLowerCase().includes(query.toLowerCase()));
-  }
-  if (filtered.length > 0) {
+  if (notes > 0) {
     return (
       <div className="sm:mr-[50px] mt-6 mb-12 px-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {filtered.map((note) => (
+        {notes.map((note) => (
           <NoteItem
             key={note.id}
             id={note.id}
@@ -33,11 +29,11 @@ NoteList.propTypes = {
     archived: PropTypes.bool,
     createdAt: PropTypes.string,
   })).isRequired,
-  query: PropTypes.string,
+  // query: PropTypes.string,
 };
 
-NoteList.defaultProps = {
-  query: '',
-};
+// NoteList.defaultProps = {
+//   query: '',
+// };
 
 export default NoteList;
