@@ -1,32 +1,28 @@
 /* eslint-disable react/jsx-no-bind */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
-import { addNote } from '../utils/local-data';
+import { addNote } from '../utils/network-data';
 import NoteInput from '../components/NoteInput';
+import LocaleContext from '../contexts/LocaleContext';
 
-function AddPage({ onUpdate }) {
+function AddPage() {
   const navigate = useNavigate();
+  const { locale } = React.useContext(LocaleContext);
 
-  function onAddNoteHandler(note) {
+  async function onAddNoteHandler(note) {
     const { title, body } = note;
-    addNote({ title, body });
-    onUpdate();
+    await addNote({ title, body });
     navigate('/');
   }
 
   return (
     <section>
       <div className="section-container">
-        <h2 className="section-title">Create New Note</h2>
+        <h2 className="section-title">{locale === 'en' ? 'Create New Note' : 'Buat Catatan Baru'}</h2>
         <NoteInput addNote={onAddNoteHandler} />
       </div>
     </section>
   );
 }
-
-AddPage.propTypes = {
-  onUpdate: PropTypes.func.isRequired,
-};
 
 export default AddPage;

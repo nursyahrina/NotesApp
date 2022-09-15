@@ -1,66 +1,115 @@
+/* eslint-disable max-len */
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { PropTypes } from 'prop-types';
+import LocaleContext from '../contexts/LocaleContext';
+import useInput from '../hooks/useInput';
 
-class NoteInput extends React.Component {
-  constructor(props) {
-    super(props);
+function NoteInput({ addNote }) {
+  const { locale } = React.useContext(LocaleContext);
+  const [title, setTitle] = React.useState('');
+  const [chars, setChars] = React.useState(50);
+  const [body, onBodyChangeHandler] = useInput('');
 
-    this.state = {
-      title: '',
-      chars: 50,
-      body: '',
-    };
-
-    this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
-    this.onInputHandler = this.onInputHandler.bind(this);
-    this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
-  }
-
-  onTitleChangeEventHandler = (event) => {
+  const onTitleChangeHandler = (event) => {
     if (event.target.value.length <= 50) {
-      this.setState(() => ({
-        title: event.target.value,
-        chars: 50 - event.target.value.length,
-      }));
-    } else {
-      event.target.value = this.state.title;
+      setTitle(event.target.value);
+      setChars(50 - event.target.value.length);
     }
   };
-
-  onInputHandler = (event) => {
-    this.setState(() => ({
-      body: event.target.innerHTML,
-    }));
-  };
-
-  onSubmitEventHandler = (event) => {
+  const onSubmitEventHandler = (event) => {
     event.preventDefault();
-    this.props.addNote(this.state);
+    addNote({ title, body });
   };
 
-  render() {
-    return (
-      <form className="section-container pt-0 flex flex-col" onSubmit={this.onSubmitEventHandler}>
-        <span className="self-end py-2 text-slate-50" id="note-title-chars">
-          Remaining chars:
-          {' '}
-          {this.state.chars}
-        </span>
-        <input className="mb-2 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm" type="text" placeholder="Note Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
-        {(this.state.title).length === 50 && (<span className="self-end mb-4 font-bold text-amber-300">The max length of title has been met, can&apos;t exceed this limit!</span>)}
-        <div
-          className="mb-3 py-2 px-6 min-h-[100px] bg-white border border-indigo-800 rounded-lg drop-shadow-sm"
-          data-placeholder="Sebenarnya saya adalah ...."
-          contentEditable
-          onInput={this.onInputHandler}
-        />
-        <button className="mb-2 px-3 py-2 rounded-lg drop-shadow-sm bg-accent-hover font-bold text-slate-900" type="submit">Create</button>
-      </form>
-    );
-  }
+  return (
+    <form className="section-container pt-0 flex flex-col" onSubmit={onSubmitEventHandler}>
+      <span className="self-end py-2 text-slate-50" id="note-title-chars">
+        {locale === 'en' ? 'Remaining Chars:' : 'Sisa Karakter:'}
+        {' '}
+        {chars}
+      </span>
+      <input className="input-text mb-2" type="text" placeholder="Note Title" value={title} onChange={onTitleChangeHandler} />
+      {title.length === 50 && (
+      <span className="self-end mb-4 font-bold text-amber-300">
+        {locale === 'en' ? "Max length of title has been met, can't exceed this limit!" : 'Panjang judul sudah mencapai maksimum, tidak dapat melebihi batas!'}
+      </span>
+      )}
+      <div
+        className="input-text min-h-[100px] bg-white"
+        contentEditable
+        onInput={onBodyChangeHandler}
+      />
+      <button className="input-button" type="submit">{locale === 'en' ? 'Create' : 'Simpan'}</button>
+    </form>
+  );
 }
+
+// class NoteInput extends React.Component {
+//   // eslint-disable-next-line react/static-property-placement
+//   static contextType = React.useContext(LocaleContext);
+
+//   constructor(props) {
+//     super(props);
+
+//     this.state = {
+//       title: '',
+//       chars: 50,
+//       body: '',
+//     };
+
+//     this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
+//     this.onInputHandler = this.onInputHandler.bind(this);
+//     this.onSubmitEventHandler = this.onSubmitEventHandler.bind(this);
+//   }
+
+//   onTitleChangeEventHandler = (event) => {
+//     if (event.target.value.length <= 50) {
+//       this.setState(() => ({
+//         title: event.target.value,
+//         chars: 50 - event.target.value.length,
+//       }));
+//     } else {
+//       event.target.value = this.state.title;
+//     }
+//   };
+
+//   onInputHandler = (event) => {
+//     this.setState(() => ({
+//       body: event.target.innerHTML,
+//     }));
+//   };
+
+//   onSubmitEventHandler = (event) => {
+//     event.preventDefault();
+//     this.props.addNote(this.state);
+//   };
+
+//   render() {
+//     return (
+//       <form className="section-container pt-0 flex flex-col" onSubmit={this.onSubmitEventHandler}>
+//         <span className="self-end py-2 text-slate-50" id="note-title-chars">
+//           {this.contextType.locale === 'en' ? 'Remaining Chars:' : 'Sisa Karakter:'}
+//           {' '}
+//           {this.state.chars}
+//         </span>
+//         <input className="input-text mb-2" type="text" placeholder="Note Title" value={this.state.title} onChange={this.onTitleChangeEventHandler} />
+//         {(this.state.title).length === 50 && (
+//         <span className="self-end mb-4 font-bold text-amber-300">
+//           {this.contextType.locale === 'en' ? "Max length of title has been met, can't exceed this limit!" : 'Panjang judul sudah mencapai maksimum, tidak dapat melebihi batas!'}
+//         </span>
+//         )}
+//         <div
+//           className="input-text min-h-[100px] bg-white"
+//           contentEditable
+//           onInput={this.onInputHandler}
+//         />
+//         <button className="input-button" type="submit">{this.contextType.locale === 'en' ? 'Create' : 'Simpan'}</button>
+//       </form>
+//     );
+//   }
+// }
 
 NoteInput.propTypes = {
   addNote: PropTypes.func.isRequired,

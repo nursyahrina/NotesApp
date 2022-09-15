@@ -1,28 +1,37 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import { FaReact } from 'react-icons/fa';
+// import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
 import AddButton from '../components/AddButton';
 import { getActiveNotes } from '../utils/network-data';
+import SearchBar from '../components/SearchBar';
+import useContainer from '../hooks/useContainer';
+import LocaleContext from '../contexts/LocaleContext';
 
-function HomePage({ keyword }) {
-  const [notes, setNotes] = React.useState([]);
+function HomePage() {
+  const [loading, keyword, notes, onSearchHandler] = useContainer(getActiveNotes);
+  const { locale } = React.useContext(LocaleContext);
 
-  React.useEffect(() => {
-    getActiveNotes().then(({ data }) => {
-      setNotes(data.filter((note) => note.title.toLowerCase().includes(
-        keyword.toLowerCase(),
-      )));
-    });
-  }, [keyword]);
-
+  if (loading) {
+    return (
+      <section>
+        <div className="section-container flex flex-col h-screen">
+          <h2 className="section-title">{locale === 'en' ? 'Active Notes' : 'Catatan Aktif'}</h2>
+          <FaReact size={140} className="self-center text-white animate-spin" />
+        </div>
+      </section>
+    );
+  }
   return (
     <>
       <section>
         <div className="section-container">
-          <h2 className="section-title">Active Notes</h2>
+          <div className="flex flex-wrap justify-between">
+            <h2 className="section-title">{locale === 'en' ? 'Active Notes' : 'Catatan Aktif'}</h2>
+            <SearchBar keyword={keyword} keywordChange={onSearchHandler} />
+          </div>
           <NoteList
             notes={notes}
-            // query={keyword}
           />
         </div>
       </section>
@@ -32,51 +41,5 @@ function HomePage({ keyword }) {
     </>
   );
 }
-
-// class HomePage extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       keyword: props.keyword,
-//     };
-//   }
-
-//   render() {
-//     const { notes } = this.props;
-//     const { keyword } = this.state;
-//     return (
-//       <>
-//         <section>
-//           <div className="section-container">
-//             <h2 className="section-title">Active Notes</h2>
-//             <NoteList
-//               notes={notes}
-//               query={keyword}
-//             />
-//           </div>
-//         </section>
-//         <aside className="fixed bottom-16 right-8">
-//           <AddButton />
-//         </aside>
-//       </>
-//     );
-//   }
-// }
-
-HomePage.propTypes = {
-  // notes: PropTypes.arrayOf(PropTypes.exact({
-  //   id: PropTypes.string,
-  //   title: PropTypes.string,
-  //   body: PropTypes.string,
-  //   archived: PropTypes.bool,
-  //   createdAt: PropTypes.string,
-  // })).isRequired,
-  keyword: PropTypes.string.isRequired,
-};
-
-// HomePage.defaultProps = {
-//   keyword: '',
-// };
 
 export default HomePage;

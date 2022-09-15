@@ -1,7 +1,9 @@
 import React from 'react';
 import { FaSadTear } from 'react-icons/fa';
+import LocaleContext from '../contexts/LocaleContext';
 
 function NotFoundPage() {
+  const { locale } = React.useContext(LocaleContext);
   return (
     <section>
       <div className="section-container">
@@ -9,7 +11,7 @@ function NotFoundPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 justify-center justify-items-center items-center">
           <h3 className="p-8 text-3xl sm:text-4xl md:text-5xl font-bold text-white">
             <span className="leading-relaxed">
-              Sorry! The page you&apos;re looking for doesn&apos;t exist
+              {locale === 'en' ? "Sorry! The page you're looking for doesn't exist." : 'Maaf, Halaman yang anda tuju tidak tersedia.'}
               {' '}
             </span>
 

@@ -1,71 +1,39 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import { FaReact } from 'react-icons/fa';
+// import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
-import { getActiveNotes } from '../utils/network-data';
+import { getArchivedNotes } from '../utils/network-data';
+import SearchBar from '../components/SearchBar';
+import useContainer from '../hooks/useContainer';
+import LocaleContext from '../contexts/LocaleContext';
 
-function ArchivePage({ keyword }) {
-  const [notes, setNotes] = React.useState([]);
+function ArchivePage() {
+  const [loading, keyword, notes, onSearchHandler] = useContainer(getArchivedNotes);
+  const { locale } = React.useContext(LocaleContext);
 
-  React.useEffect(() => {
-    getActiveNotes().then(({ data }) => {
-      setNotes(data.filter((note) => note.title.toLowerCase().includes(
-        keyword.toLowerCase(),
-      )));
-    });
-  }, [keyword]);
-
+  if (loading) {
+    return (
+      <section>
+        <div className="section-container flex flex-col h-screen">
+          <h2 className="section-title">{locale === 'en' ? 'Archived Notes' : 'Catatan Terarsip'}</h2>
+          <FaReact size={140} className="self-center text-white animate-spin" />
+        </div>
+      </section>
+    );
+  }
   return (
     <section>
       <div className="section-container">
-        <h2 className="section-title">Archived Notes</h2>
+        <div className="flex flex-wrap justify-between">
+          <h2 className="section-title">{locale === 'en' ? 'Archived Notes' : 'Catatan Terarsip'}</h2>
+          <SearchBar keyword={keyword} keywordChange={onSearchHandler} />
+        </div>
         <NoteList
           notes={notes}
-          // query={keyword}
         />
       </div>
     </section>
   );
 }
-
-// class ArchivePage extends React.Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       keyword: props.keyword,
-//     };
-//   }
-
-//   render() {
-//     const { notes } = this.props;
-//     const { keyword } = this.state;
-//     return (
-//       <section>
-//         <div className="section-container">
-//           <h2 className="section-title">Archived Notes</h2>
-//           <NoteList
-//             notes={notes}
-//             query={keyword}
-//           />
-//         </div>
-//       </section>
-//     );
-//   }
-// }
-
-ArchivePage.propTypes = {
-  // notes: PropTypes.arrayOf(PropTypes.exact({
-  //   id: PropTypes.string,
-  //   title: PropTypes.string,
-  //   body: PropTypes.string,
-  //   archived: PropTypes.bool,
-  //   createdAt: PropTypes.string,
-  // })).isRequired,
-  keyword: PropTypes.string.isRequired,
-};
-
-// ArchivePage.defaultProps = {
-//   keyword: '',
-// };
 
 export default ArchivePage;

@@ -19,7 +19,7 @@ function NoteItem({
         <p className="mb-1 text-sm text-slate-600">
           {showFormattedDate(createdAt)}
         </p>
-        <div className="mb-2 text-ellipsis overflow-hidden">{parser(body)}</div>
+        <div className="mb-2 truncate ...">{parser(body)}</div>
       </div>
     </div>
   );
