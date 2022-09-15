@@ -17,8 +17,8 @@ function LoginInput({ login }) {
 
   return (
     <form className="section-container pt-5 pb-2 flex flex-col" onSubmit={onSubmitHandler}>
-      <input className="input-text" type="email" placeholder="Email" value={email} onChange={onEmailChangeHandler} />
-      <input className="input-text" type="password" placeholder="Password" value={password} onChange={onPasswordChangeHandler} />
+      <input type="email" placeholder="Email" value={email} onChange={onEmailChangeHandler} />
+      <input type="password" placeholder="Password" value={password} onChange={onPasswordChangeHandler} />
       <button className="input-button" type="submit">Login</button>
     </form>
   );

@@ -21,10 +21,10 @@ function RegisterInput({ register }) {
 
   return (
     <form className="section-container pt-5 pb-2 flex flex-col" onSubmit={onSubmitHandler}>
-      <input className="input-text mb-2" type="text" placeholder={locale === 'en' ? 'Name' : 'Nama'} value={name} onChange={onNameChangeHandler} />
-      <input className="input-text" type="email" placeholder="Email" value={email} onChange={onEmailChangeHandler} />
-      <input className="input-text" type="password" placeholder="Password" value={password} onChange={onPasswordChangeHandler} />
-      <input className="input-text" type="password" placeholder={locale === 'en' ? 'Confirm Password' : 'Konfimasi Password'} value={confirmPassword} onChange={onConfirmPasswordChangeHandler} />
+      <input className="mb-2" type="text" placeholder={locale === 'en' ? 'Name' : 'Nama'} value={name} onChange={onNameChangeHandler} />
+      <input type="email" placeholder="Email" value={email} onChange={onEmailChangeHandler} />
+      <input type="password" placeholder="Password" value={password} onChange={onPasswordChangeHandler} />
+      <input type="password" placeholder={locale === 'en' ? 'Confirm Password' : 'Konfimasi Password'} value={confirmPassword} onChange={onConfirmPasswordChangeHandler} />
       <button className="input-button" type="submit">Register</button>
     </form>
   );

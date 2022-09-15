@@ -5,7 +5,7 @@ import { RiInboxUnarchiveFill } from 'react-icons/ri';
 function ActivateButton({ id, onUnarchive }) {
   return (
     <button type="button" className="button-action bg-accent-hover animate-scale" onClick={() => onUnarchive(id)}>
-      <RiInboxUnarchiveFill size={40} className="p-1 text-white drop-shadow-lg" />
+      <RiInboxUnarchiveFill size={40} className="p-1 drop-shadow-lg" />
     </button>
   );
 }

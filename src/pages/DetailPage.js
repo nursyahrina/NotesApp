@@ -47,7 +47,7 @@ function DetailPage() {
       <section>
         <div className="section-container flex flex-col h-screen">
           <h2 className="section-title">{locale === 'en' ? 'Detail Page' : 'Halaman Detail'}</h2>
-          <FaReact size={140} className="self-center text-white animate-spin" />
+          <FaReact size={140} className="self-center animate-spin" />
         </div>
       </section>
     );

@@ -25,7 +25,7 @@ function RegisterPage() {
       <div className="section-container flex flex-col">
         <h2 className="section-title">Register</h2>
         <RegisterInput register={onRegisterHandler} />
-        <p className="mr-6 text-xl text-white self-end">
+        <p className="mr-6 text-xl self-end">
           {locale === 'en' ? 'Back to ' : 'Kembali ke '}
           {' '}
           <Link className="hover:underline font-bold" to={pathLogin}>Login</Link>

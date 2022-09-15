@@ -8,7 +8,7 @@ function SearchBar({ keyword, keywordChange }) {
 
   return (
     <input
-      className="w-full md:w-fit mx-7 mb-2 py-2 px-6 border border-indigo-800 rounded-lg drop-shadow-sm"
+      className="w-full md:w-fit mx-7 mb-2 py-2 px-6 rounded-lg drop-shadow-sm"
       type="text"
       placeholder={locale === 'en' ? 'Search Note Here...' : 'Cari Catatan Disini...'}
       autoFocus

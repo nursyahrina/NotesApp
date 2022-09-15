@@ -12,16 +12,6 @@ function HomePage() {
   const [loading, keyword, notes, onSearchHandler] = useContainer(getActiveNotes);
   const { locale } = React.useContext(LocaleContext);
 
-  if (loading) {
-    return (
-      <section>
-        <div className="section-container flex flex-col h-screen">
-          <h2 className="section-title">{locale === 'en' ? 'Active Notes' : 'Catatan Aktif'}</h2>
-          <FaReact size={140} className="self-center text-white animate-spin" />
-        </div>
-      </section>
-    );
-  }
   return (
     <>
       <section>
@@ -30,9 +20,8 @@ function HomePage() {
             <h2 className="section-title">{locale === 'en' ? 'Active Notes' : 'Catatan Aktif'}</h2>
             <SearchBar keyword={keyword} keywordChange={onSearchHandler} />
           </div>
-          <NoteList
-            notes={notes}
-          />
+          {loading && <FaReact size={140} className="m-auto mt-24 animate-spin" />}
+          {!loading && <NoteList notes={notes} />}
         </div>
       </section>
       <aside className="fixed bottom-16 right-8">

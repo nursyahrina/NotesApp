@@ -6,7 +6,7 @@ function AddButton() {
   return (
     <button type="button" className="button-action bg-accent-hover animate-scale">
       <Link to="/notes/new">
-        <RiAddFill size={40} className="text-white drop-shadow-lg" />
+        <RiAddFill size={40} className="drop-shadow-lg" />
       </Link>
     </button>
   );

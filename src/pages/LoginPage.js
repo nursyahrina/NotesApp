@@ -24,7 +24,7 @@ function LoginPage({ loginSuccess }) {
       <div className="section-container flex flex-col">
         <h2 className="section-title">Login</h2>
         <LoginInput login={onLogin} />
-        <p className="mr-6 text-xl text-white self-end">
+        <p className="mr-6 text-xl self-end">
           {locale === 'en' ? "Don't have an account?" : 'Belum memiliki akun?'}
           {' '}
           <Link className="hover:underline font-bold" to={pathRegister}>{locale === 'en' ? 'Register Here!' : 'Daftar Disini!'}</Link>

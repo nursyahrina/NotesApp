@@ -21,7 +21,7 @@ function NoteList({ notes }) {
       </div>
     );
   }
-  return <p className="text-slate-200 ml-8 mt-6 text-lg">{locale === 'en' ? 'No available notes.' : 'Tidak ada catatan tersedia.'}</p>;
+  return <p className="ml-8 mt-6 text-lg">{locale === 'en' ? 'No available notes.' : 'Tidak ada catatan tersedia.'}</p>;
 }
 
 NoteList.propTypes = {
