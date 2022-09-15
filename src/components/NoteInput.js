@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-param-reassign */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { PropTypes } from 'prop-types';
 import LocaleContext from '../contexts/LocaleContext';
